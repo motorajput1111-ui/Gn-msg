@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Good Night Sara 🌙</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+body{
+  margin:0;
+  font-family:'Poppins',sans-serif;
+  background:linear-gradient(120deg,#0b132b,#1c2541,#3a506b);
+  height:100vh;
+  overflow:hidden;
+  color:white;
+}
+
+.page{
+  display:none;
+  height:100vh;
+  width:100%;
+  position:absolute;
+  justify-content:center;
+  align-items:center;
+  flex-direction:column;
+  text-align:center;
+  padding:20px;
+}
+
+.page.active{display:flex;}
+
+h1{animation:fadeIn 2s ease;}
+p{max-width:600px; line-height:1.7; animation:fadeIn 3s ease;}
+
+button{
+  margin-top:25px;
+  padding:12px 30px;
+  border:none;
+  border-radius:30px;
+  background:#ffffff22;
+  color:white;
+  cursor:pointer;
+  backdrop-filter:blur(6px);
+}
+
+/* Moon */
+.moon{
+  position:absolute;
+  top:40px;
+  right:40px;
+  width:80px;
+  height:80px;
+  background:#f5f3ce;
+  border-radius:50%;
+  box-shadow:0 0 20px #fff;
+  animation:moonGlow 3s infinite alternate;
+}
+
+@keyframes moonGlow{
+  from{box-shadow:0 0 15px #fff;}
+  to{box-shadow:0 0 30px #fff;}
+}
+
+/* Hearts */
+.heart{
+  position:absolute;
+  bottom:-20px;
+  font-size:18px;
+  animation:floatUp 6s linear infinite;
+  opacity:0.8;
+}
+
+@keyframes floatUp{
+  0%{transform:translateY(0); opacity:0;}
+  20%{opacity:1;}
+  100%{transform:translateY(-110vh); opacity:0;}
+}
+
+/* Stars */
+.star{
+  position:absolute;
+  width:2px;
+  height:2px;
+  background:white;
+  border-radius:50%;
+  animation:twinkle 2s infinite;
+}
+
+@keyframes twinkle{
+  0%,100%{opacity:0.3;}
+  50%{opacity:1;}
+}
+
+@keyframes fadeIn{
+  from{opacity:0; transform:translateY(20px);}
+  to{opacity:1; transform:translateY(0);}
+}
+</style>
+</head>
+
+<body onclick="playSound()">
+
+<div class="moon"></div>
+
+<!-- PAGE 1 -->
+<div class="page active">
+  <h1>🌙 Good Night, Sara</h1>
+  <p>
+    Before you sleep,  
+    I just want you to know  
+    you mean more than words tonight.
+  </p>
+  <button onclick="nextPage()">Next ✨</button>
+</div>
+
+<!-- PAGE 2 -->
+<div class="page">
+  <h1>💫 A Gentle Thought</h1>
+  <p>
+    The night is calm,  
+    and somehow my thoughts  
+    still find their way to you.
+  </p>
+  <button onclick="nextPage()">Next 🌌</button>
+</div>
+
+<!-- PAGE 3 -->
+<div class="page">
+  <h1>🌌 Soft Wishes</h1>
+  <p>
+    May your dreams be warm,  
+    your sleep be peaceful,  
+    and your heart feel safe.
+  </p>
+  <button onclick="nextPage()">One More 🤍</button>
+</div>
+
+<!-- SECRET PAGE -->
+<div class="page">
+  <h1>🤫 A Small Secret</h1>
+  <p>
+    Some feelings don’t need to be spoken.  
+    They simply exist… quietly.
+  </p>
+  <button onclick="nextPage()">Final 🎧</button>
+</div>
+
+<!-- MUSIC PAGE -->
+<div class="page" ondblclick="openHidden()">
+  <h1>🎵 Tonight’s Song</h1>
+  <p>
+    If you listen to music before sleeping,  
+    let this song stay with you:
+  </p>
+  <h2>💙 “I Wanna Be Yours”</h2>
+  <p style="opacity:0.6;font-size:13px;">
+    (Double tap anywhere 🤫)
+  </p>
+</div>
+
+<!-- HIDDEN PAGE -->
+<div class="page" id="hidden">
+  <h1>🌙 Hidden Page</h1>
+  <p>
+    You unlocked this page by  
+    double tapping on the music page.
+  </p>
+  <p>
+    That itself tells me one thing —  
+    curiosity brought you here,  
+    and care kept you reading.
+  </p>
+  <button onclick="restart()">Good Night 🌙</button>
+</div>
+
+<!-- Sound -->
+<audio id="tapSound">
+  <source src="https://cdn.pixabay.com/audio/2022/03/15/audio_6c0b5c5f9a.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+let currentPage=0;
+const pages=document.querySelectorAll('.page');
+const sound=document.getElementById("tapSound");
+
+function nextPage(){
+  pages[currentPage].classList.remove('active');
+  currentPage++;
+  pages[currentPage].classList.add('active');
+}
+
+function restart(){
+  pages[currentPage].classList.remove('active');
+  currentPage=0;
+  pages[currentPage].classList.add('active');
+}
+
+function openHidden(){
+  pages[currentPage].classList.remove('active');
+  document.getElementById("hidden").classList.add('active');
+  currentPage=pages.length-1;
+}
+
+function playSound(){
+  sound.volume=0.2;
+  sound.play();
+}
+
+/* Stars */
+for(let i=0;i<60;i++){
+  let s=document.createElement("div");
+  s.className="star";
+  s.style.top=Math.random()*100+"%";
+  s.style.left=Math.random()*100+"%";
+  document.body.appendChild(s);
+}
+
+/* Hearts */
+setInterval(()=>{
+  let h=document.createElement("div");
+  h.className="heart";
+  h.innerHTML="❤️";
+  h.style.left=Math.random()*100+"%";
+  h.style.animationDuration=4+Math.random()*3+"s";
+  document.body.appendChild(h);
+  setTimeout(()=>h.remove(),7000);
+},800);
+</script>
+
+</body>
+</html>
